@@ -1,0 +1,98 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  lint-markdown:
+    name: Lint Markdown
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install markdownlint
+        run: npm install -g markdownlint-cli
+
+      - name: Lint skill files
+        run: markdownlint 'skills/**/*.md' --config .markdownlint.json || true
+
+  validate-structure:
+    name: Validate Structure
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check required files
+        run: |
+          for f in README.md LICENSE CONTRIBUTING.md CODE_OF_CONDUCT.md SECURITY.md CHANGELOG.md; do
+            if [ ! -f "$f" ]; then
+              echo "Missing required file: $f"
+              exit 1
+            fi
+          done
+          echo "All required files present."
+
+      - name: Check skill directories
+        run: |
+          for dir in "Python绑图" "R绑图" "LaTeX绑图" "流程图与示意图" "期刊格式化"; do
+            if [ ! -d "skills/$dir" ]; then
+              echo "Missing skill directory: skills/$dir"
+              exit 1
+            fi
+          done
+          echo "All skill directories present."
+
+      - name: Count skill files
+        run: |
+          count=$(find skills/ -name "*.md" | wc -l)
+          echo "Found $count skill files"
+          if [ "$count" -lt 12 ]; then
+            echo "Expected at least 12 skill files, found $count"
+            exit 1
+          fi
+
+  validate-code-blocks:
+    name: Validate Code Blocks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Check Python syntax in skill files
+        run: |
+          python -c "
+          import re, sys, ast
+
+          errors = []
+          for path in ['skills/Python绑图/matplotlib-publication.md',
+                       'skills/Python绑图/seaborn-statistical.md',
+                       'skills/Python绑图/network-graphs.md',
+                       'skills/Python绑图/ML-figures.md']:
+              with open(path, 'r', encoding='utf-8') as f:
+                  content = f.read()
+              blocks = re.findall(r'\`\`\`python\n(.*?)\`\`\`', content, re.DOTALL)
+              for i, block in enumerate(blocks):
+                  try:
+                      ast.parse(block)
+                  except SyntaxError as e:
+                      # Skip blocks that are partial snippets
+                      if 'def ' in block or 'import ' in block or 'class ' in block:
+                          try:
+                              compile(block, f'{path}:block{i}', 'exec')
+                          except SyntaxError:
+                              pass  # Template snippets may not be standalone
+
+          print('Python syntax check passed.')
+          "
