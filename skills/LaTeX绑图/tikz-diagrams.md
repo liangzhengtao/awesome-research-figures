@@ -6,7 +6,7 @@
 - Building state machines, block diagrams, or system overviews
 - Need pixel-perfect alignment with LaTeX document fonts
 - Creating reusable diagram macros for a paper or thesis
-- Drawing conceptual diagrams that integrate seamlessly with text
+- Drawing conceptual diagrams that integrate smoothly with text
 
 ## Tools and Libraries
 
