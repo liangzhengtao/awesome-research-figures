@@ -25,7 +25,7 @@ This project does **not**:
 
 The code templates are provided as-is for users to copy and adapt. Users are responsible for reviewing and running code in their own environments.
 
-## Best Practices for Users
+## Proven Patterns for Users
 
 - Always review code templates before running them
 - Use virtual environments for Python dependencies
