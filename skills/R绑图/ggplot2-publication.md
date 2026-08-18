@@ -297,3 +297,37 @@ create_ridge_plot <- function(df, x_var, y_var, filename = "ridge.pdf") {
 - **PLOS**: 300 DPI minimum; TIFF or EPS; describe in figure legend
 - **Cell**: Sans-serif fonts; support multi-page supplementary figures
 - **General**: Always set `seed` for reproducible jitter; save source data as CSV
+
+---
+
+## 中文版本
+
+### 使用场景
+- 使用 R 为学术论文创建出版级图表
+- 生成带分面（faceting）的多面板图表
+- 使用内置统计图层进行统计可视化
+- 需要对每个视觉元素进行精细控制
+- 在 R 为主流工具的领域工作（生物统计、生态学、社会科学）
+
+### 工具库
+```r
+install.packages(c("ggplot2", "ggpubr", "patchwork", "ggsci",
+                    "scales", "cowplot", "ggridges", "ggrepel"))
+```
+
+### 代码模板说明
+- **出版主题函数**：`theme_publication()` 统一配置字体、坐标轴、网格、图例样式
+- **期刊专用主题**：`theme_nature()`（Helvetica）和 `theme_ieee()`（Times New Roman）
+- **模板 1**：patchwork 多面板图（散点+箱线+密度+柱状，统一图例收集）
+- **模板 2**：Kaplan-Meier 生存曲线（survminer，含 p 值和风险表）
+- **模板 3**：森林图（meta 分析效应量 + 置信区间）
+- **模板 4**：岭图/山脊图（ggridges，多组分布比较）
+
+### 常见陷阱
+1. **PDF 字体未嵌入**：使用 `cairo_pdf` 设备确保字体正确嵌入
+2. **分面标签换行**：使用 `labeller = label_wrap_gen(width = 15)` 处理长标签
+3. **图例遮挡数据**：用 `theme(legend.position = "bottom")` 放在外部
+4. **patchwork 对齐**：使用 `plot_layout(axes = "collect")` 对齐 y 轴
+5. **灰度下颜色混淆**：用 `scale_fill_grey()` 或 `scale_color_grey()` 测试
+6. **ggplot 链中缺少 `+`**：每个图层必须用 `+` 连接
+7. **因子顺序错误**：使用 `fct_reorder()` 而非字母顺序

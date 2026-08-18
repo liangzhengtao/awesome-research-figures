@@ -300,3 +300,38 @@ create_enrichment_plot <- function(enrichment_df, top_n = 15,
 - **NAR**: Minimum 300 DPI; vector preferred for diagrams
 - **Cell Systems**: Support wide figures; interactive supplements encouraged
 - **General**: Always specify log2 fold change direction; use adjusted p-values; describe statistical methods in figure legend
+
+---
+
+## 中文版本
+
+### 使用场景
+- 可视化基因组学/蛋白质组学数据：火山图、基因表达热力图
+- 创建通路图、桑基图/冲积图
+- 绘制基因本体（GO）富集分析结果
+- 可视化差异表达分析输出
+- 为生物信息学或系统生物学论文创建图表
+
+### 工具库
+```r
+# Bioconductor 包
+BiocManager::install(c("EnhancedVolcano", "ComplexHeatmap", "clusterProfiler"))
+# CRAN 包
+install.packages(c("ggplot2", "pheatmap", "ggalluvial", "ggrepel",
+                    "RColorBrewer", "viridis"))
+```
+
+### 代码模板说明
+- **模板 1**：火山图（EnhancedVolcano 包 + 手动 ggplot2 版本，支持自定义截断线和标签）
+- **模板 2**：基因表达热力图（ComplexHeatmap，z-score 行标准化，带样本注释和聚类树）
+- **模板 3**：桑基/冲积图（ggalluvial，展示多阶段类别流动）
+- **模板 4**：GO 富集气泡图（按 GeneRatio 和 adjusted p-value 着色）
+
+### 常见陷阱
+1. **火山图标签重叠**：使用 `ggrepel` 并设置 `max.overlaps = 20`
+2. **热力图标准化方向错误**：基因比较时按行（而非列）做 z-score
+3. **p 值截断混淆**：使用校正后的 p 值（`padj`），而非原始 p 值
+4. **桑基图顺序**：因子水平决定从左到右的排列顺序
+5. **GO 富集冗余**：绘图前去除冗余 GO 条目
+6. **ComplexHeatmap 注释对齐**：确保注释顺序与列顺序一致
+7. **base 绑图忘记 `dev.off()`**：`pdf()`/`png()` 后必须关闭设备

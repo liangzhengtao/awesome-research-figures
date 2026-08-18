@@ -254,4 +254,50 @@ Supplementary / web:
 
 Interactive:
   → SVG (web) or HTML (pyvis, plotly)
+
+---
+
+## 中文版本
+
+### 使用场景
+- 为特定期刊（IEEE、ACM、Nature、Science、Elsevier、Springer）格式化图表
+- 投稿前检查图表尺寸、分辨率、字体要求
+- 准备图表合规检查清单
+- 在不同期刊格式要求之间转换图表
+- 验证颜色模式和文件格式要求
+
+### 工具库
+```
+pip install Pillow        # 图像处理和 DPI 验证
+pip install matplotlib    # 用于 PDF/EPS 生成
+```
+```bash
+# CLI 验证工具
+brew install imagemagick   # macOS
+apt install imagemagick    # Linux
+```
+
+### 代码模板说明
+- **合规检查清单**：尺寸、分辨率、字体、颜色模式、文件格式、线宽、可读性等 10 项检查
+- **DPI 验证脚本**：`check_dpi()` 自动检测图片 DPI 并给出重新导出建议
+- **尺寸验证脚本**：`check_figure_size()` 比较实际尺寸与期刊要求
+
+### 期刊规格速查
+| 期刊 | 单栏宽度 | 双栏宽度 | 字体 | 最小字号 | 线条艺术分辨率 |
+|------|---------|---------|------|---------|--------------|
+| IEEE | 89mm | 182mm | Times New Roman | 6pt | 600 dpi |
+| Nature | 89mm | 183mm | Arial/Helvetica | 6pt | 1000 dpi |
+| Science | 87mm | 178mm | Helvetica/Arial | 5pt | 600 dpi |
+| Elsevier | 90mm | 190mm | Arial/Helvetica/Courier | 6pt | 1000 dpi |
+| Springer | 84mm | 174mm | Arial/Helvetica | 7pt | 1200 dpi |
+| ACM | 89mm | 178mm | Times New Roman/Helvetica | 6pt | 300 dpi |
+
+### 常见陷阱
+1. **DPI 与 PPI 混淆**：DPI 用于印刷；PPI 用于屏幕。期刊要求的是印刷 DPI
+2. **矢量格式无 DPI**：PDF/EPS/SVG 分辨率无关；DPI 仅适用于栅格图
+3. **缩放后字号变化**：始终在最终打印尺寸下检查字号
+4. **CMYK 色偏**：仅在期刊要求时从 RGB 转 CMYK；颜色可能偏移
+5. **TIFF 压缩**：使用 LZW 压缩；避免 JPEG 压缩的 TIFF
+6. **PDF 版本**：推荐 PDF 1.4+；避免 PDF 2.0 特性
+7. **PDF 字体嵌入**：确保所有字体已嵌入（用 `pdffonts` 检查）
 ```

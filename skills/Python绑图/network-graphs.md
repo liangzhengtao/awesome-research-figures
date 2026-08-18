@@ -354,3 +354,36 @@ def create_interactive_network(G, communities=None,
 - **PNAS**: Use consistent node shapes across subfigures
 - **General**: Provide adjacency matrix or edge list as supplementary data
 - **PLOS**: Minimum 300 dpi; describe layout algorithm in figure caption
+
+---
+
+## 中文版本
+
+### 使用场景
+- 在学术论文中可视化网络结构
+- 绘制引文网络、社交图谱或合作关系图
+- 展示知识图谱、本体或层次结构
+- 显示社区检测结果或中心性度量
+- 描述通信或信息流网络
+
+### 工具库
+```
+pip install networkx matplotlib numpy scipy
+pip install pyvis  # 可选：交互式 HTML 可视化
+```
+
+### 代码模板说明
+- **布局选择指南**：根据节点数自动选择布局（<50 用 kamada，<200 用 spring，>200 用 fruchterman）
+- **模板 1**：引文网络（节点大小按引用数缩放，颜色按引用数映射）
+- **模板 2**：带社区着色的合作图（节点大小按度中心性，边宽度按权重）
+- **模板 3**：知识图谱/本体（三元组可视化，节点按类型着色，边标签显示关系）
+- **模板 4**：Pyvis 交互式网络（生成可交互 HTML 文件）
+
+### 常见陷阱
+1. **布局不可复现**：布局函数中始终设置 `seed=N`
+2. **节点标签重叠**：减小字号或使用 `adjustText` 库
+3. **密集图边杂乱**：降低 alpha 或按权重阈值筛选边
+4. **大图（>500 节点）**：使用边捆绑或筛选 top-k 边
+5. **有向图箭头过大**：调整 `arrowsize` 避免箭头过大
+6. **多子图共享色条**：使用 `plt.colorbar(mappable, ax=[ax1, ax2])`
+7. **图不连通**：检查 `nx.is_connected(G)` 并考虑按连通分量布局

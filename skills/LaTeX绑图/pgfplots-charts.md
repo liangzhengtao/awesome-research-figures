@@ -312,3 +312,42 @@
 - **Elsevier**: `\begin{figure*}` for double-width figures
 - **Nature**: PDF figures from PGFPlots work perfectly in LaTeX submissions
 - **General**: Compile with `pdflatex` or `lualatex` for best PGFPlots support
+
+---
+
+## 中文版本
+
+### 使用场景
+- 在 LaTeX 文档中直接创建图表以保持字体一致
+- 需要完美字体匹配的矢量图形
+- 在 LaTeX 中生成折线图、柱状图、散点图
+- 创建 3D 曲面图或等高线图
+- 纯 LaTeX 工作流（无外部图片依赖）
+
+### 工具库
+- LaTeX 发行版（TeX Live、MiKTeX）
+- 包：`pgfplots`、`tikz`、`pgfplotstable`
+
+```latex
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usepgfplotslibrary{groupplots, statistics, fillbetween}
+```
+
+### 代码模板说明
+- **全局出版样式**：通过 `every axis/.style` 统一配置坐标轴、刻度、图例、网格
+- **出版颜色循环**：自定义 6 色 `pubcycle` 颜色列表（色盲友好）
+- **模板 1**：带误差棒的折线图（`error bars/.cd, y dir=both`）
+- **模板 2**：分组柱状图（`ybar` + `nodes near coords` 数据标注）
+- **模板 3**：散点图 + 回归线（含 R² 标注和 y=x 参考线）
+- **模板 4**：3D 曲面图（`surf` + viridis 色图 + colorbar）
+- **模板 5**：箱线图（`boxplot prepared` 预计算统计量）
+
+### 常见陷阱
+1. **特殊字符编译错误**：表数据中转义 `%`、`_`、`&`
+2. **图例遮挡数据**：使用 `legend pos={north west}` 或 `legend style={at={(0.02,0.98)}}`
+3. **刻度标签过小**：用 `tick label style={font=\footnotesize}` 缩放
+4. **颜色打印不佳**：印刷期刊用 CMYK：`\selectcolormodel{cmyk}`
+5. **3D 图编译过慢**：草稿用 `samples=20-30`，终稿增至 50+
+6. **坐标轴截断数据**：添加 `enlarge x limits=0.05` 留白
+7. **缺少 compat 版本**：始终包含 `\pgfplotsset{compat=1.18}` 避免警告

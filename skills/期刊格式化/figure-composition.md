@@ -365,3 +365,44 @@ create_multipanel_r <- function(filename = "figure_r.pdf") {
 - **Science**: Combined figures count as one figure; total width 7.0 in max
 - **Elsevier**: Use `subfig` package; `\begin{figure*}` for double-column
 - **General**: Always export at final composition size; do not resize after composition
+
+---
+
+## 中文版本
+
+### 使用场景
+- 将多个子图组合为单一复合图
+- 创建 2×2 网格、1+2 布局或时间线排列的图表
+- 跨子图对齐坐标轴、图例和色条
+- 统一添加面板标签 (a)、(b)、(c)
+- 为期刊投稿准备多面板图表
+
+### 工具库
+```
+pip install matplotlib Pillow
+```
+```bash
+brew install imagemagick   # macOS / Linux
+```
+```r
+install.packages(c("patchwork", "cowplot", "ggpubr"))
+```
+
+### 代码模板说明
+- **布局规划**：2×2 网格（标准比较）、1+2 堆叠（主图+两个细节）、3×1 行列、时间线
+- **面板标签规范**：左上角、加粗、(a) 格式、比正文略大
+- **模板 1**：Matplotlib 2×2 网格（折线+散点+柱状+热力图，统一格式化）
+- **模板 2**：1+2 布局（`GridSpec` 高度比控制，主图跨两列）
+- **模板 3**：时间线布局（共享 y 轴，4 个决策边界演化快照）
+- **模板 4**：ImageMagick 命令行组合（`montage` 网格 + `convert` 拼接 + 标签标注）
+- **模板 5**：R patchwork 多面板（`(p1 + p2) / (p3 + p4)` + `tag_levels='a'`）
+- **模板 6**：LaTeX subfigure 组合（`subfigure` 环境 + `\subref` 引用）
+
+### 常见陷阱
+1. **坐标轴刻度不一致**：比较相同指标时使用 `sharex`/`sharey`
+2. **标签位置不统一**：始终使用同一个 `add_panel_label` 函数
+3. **图例重复**：收集图例到图形级别：`fig.legend()`
+4. **tight_layout 问题**：复杂布局用 `constrained_layout=True` 替代 `tight_layout()`
+5. **标签 (a) 未加粗**：显式设置 `fontweight='bold'`
+6. **色条错位**：通过 `fig.colorbar(im, ax=axes.ravel().tolist())` 共享色条
+7. **LaTeX 子图引用**：使用 `\subref{fig:main_a}` 引用 (a)

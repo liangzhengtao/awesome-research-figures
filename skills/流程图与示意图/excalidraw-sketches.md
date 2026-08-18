@@ -213,3 +213,39 @@ Export → PNG
 - **Presentations**: Use PNG at 3x scale; pair with hand-drawn slide templates
 - **Thesis**: Use Excalidraw for initial sketches, refine to TikZ for final version
 - **General**: Excalidraw stores state as JSON — version control your `.excalidraw` files
+
+---
+
+## 中文版本
+
+### 使用场景
+- 为演示文稿或博客创建非正式、平易近人的图表
+- 构建概念图、流程图或架构草图
+- 教育或科普材料需要"手绘"美学
+- 实时协作编辑图表
+- 研究想法的快速视觉头脑风暴
+
+### 工具库
+- [Excalidraw](https://excalidraw.com/)（网页版、自托管或 VS Code 扩展）
+- `@excalidraw/excalidraw` npm 包用于嵌入
+- VS Code 扩展：`pomdtr.excalidraw-editor`
+
+### 代码模板说明
+- **概念图**：中心节点+分支结构，按类别颜色编码（蓝=主、绿=监督、橙=无监督、紫=强化）
+- **流程图**：矩形=处理、菱形=判断、虚线=反馈回路，使用 Ctrl+G 分组
+- **架构草图**：分层架构（前端→API 网关→服务层→数据层），每层不同颜色
+- **研究方法论图**：问题定义→数据收集→方法→评估→统计分析
+
+### 导出设置
+- **SVG（推荐）**：白色背景，2x 缩放，嵌入字体
+- **PNG**：3x 缩放（标准尺寸下 300 DPI），白色背景
+- **LaTeX 导入**：`\usepackage{svg}` 或 Inkscape 转 PDF 后 `\includegraphics`
+
+### 常见陷阱
+1. **手绘字体在小尺寸下不可读**：字号 < 14 pt 时切换为"Normal"字体
+2. **导出分辨率过低**：印刷用 2x 或 3x 缩放
+3. **背景非白色**：导出前设置白色背景用于论文
+4. **SVG 文本在 LaTeX 中不可编辑**：通过 Inkscape 将 SVG → PDF
+5. **对齐问题**：使用网格吸附（Ctrl+G）和对齐工具
+6. **文件格式**：保存为 `.excalidraw`（JSON）便于再编辑，导出 SVG/PDF 用于论文
+7. **协作链接过期**：导出并对重要图表进行版本控制

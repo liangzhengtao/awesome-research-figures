@@ -248,3 +248,41 @@ File → Export as → PNG
 - **Springer**: PDF with embedded fonts; match system architecture style across paper
 - **ACM**: Use ACM template colors if specified; otherwise standard palette
 - **General**: Provide editable source (.drawio) as supplementary material when possible
+
+---
+
+## 中文版本
+
+### 使用场景
+- 创建系统架构图、流程图、ER 图
+- 构建 UML 图（类图、序列图、用例图）
+- 设计网络拓扑或基础设施图
+- 与团队成员协作编辑图表
+- 导出为 SVG/PDF 用于 LaTeX 论文或演示文稿
+
+### 工具库
+- [draw.io](https://www.drawio.com/)（桌面版或网页版）
+- 备选：`draw.io-export` CLI 批量导出
+- Mermaid 集成用于代码生成图表
+
+### 代码模板说明
+- **出版模板配置**：页面尺寸匹配期刊规格，字体设为 Times New Roman 或 Arial
+- **自定义调色板**：6 色色盲友好方案（#0072B2 等）
+- **XML 样式字符串**：可复用的出版级组件样式模板
+- **模板 1**：分层系统架构图（XML 格式，表示层+应用层+数据层）
+- **模板 2**：数据库 ER 图（crow's foot 记法）
+- **模板 3**：算法流程图（圆角矩形=起止、矩形=处理、菱形=判断）
+
+### 导出设置
+- **PDF**：100% 缩放，边距 10px，裁剪开启
+- **SVG**：嵌入图片，取消链接，页面尺寸
+- **PNG**：600 DPI（印刷质量），白色背景
+
+### 常见陷阱
+1. **导出缩放错误**：始终以 100% 缩放导出用于印刷
+2. **SVG/PDF 字体未嵌入**：本地安装字体或将文本转为路径
+3. **元素未对齐**：使用网格吸附和对齐辅助线
+4. **文件过大**：扁平化嵌入图片；使用矢量形状替代位图
+5. **颜色不匹配**：统一使用十六进制颜色码
+6. **图层顺序问题**：右键 → "置于顶层"/"置于底层" 控制 z-order
+7. **导出内容被裁剪**：检查页面边界；调整画布大小以适应内容

@@ -270,3 +270,43 @@
 - **Nature**: TikZ diagrams in PDF are accepted; match font to Helvetica if possible
 - **Thesis**: Create reusable `\newcommand` macros for consistent diagrams across chapters
 - **General**: Externalize TikZ to speed up compilation: `\tikzset{external/force remake}`
+
+---
+
+## 中文版本
+
+### 使用场景
+- 在 LaTeX 中创建架构图、流程图或神经网络图
+- 构建状态机、框图或系统概览图
+- 需要与 LaTeX 文档字体像素级对齐
+- 为论文或学位论文创建可复用的图表宏
+- 绘制与文本无缝集成的概念图
+
+### 工具库
+- LaTeX 发行版（TeX Live、MiKTeX）
+- 包：`tikz`、`tikz-cd`、`tikz-network`、`tikzmark`
+
+```latex
+\usepackage{tikz}
+\usetikzlibrary{
+  arrows.meta, positioning, shapes.geometric, shapes.multipart,
+  calc, fit, backgrounds, decorations.pathreplacing,
+  chains, matrix, patterns, shadows.blur
+}
+```
+
+### 代码模板说明
+- **全局样式定义**：`block`（圆角矩形）、`decision`（菱形）、`arrow`（箭头）、`layer`（神经网络层）
+- **模板 1**：CNN 架构图（层状矩形按比例缩放，标注尺寸）
+- **模板 2**：Transformer 块图（多头注意力 + FFN + 残差连接 + LayerNorm）
+- **模板 3**：系统架构概览（分层组件 + 后台背景分组）
+- **模板 4**：算法流程图（菱形判断 + 循环回路）
+
+### 常见陷阱
+1. **节点位置漂移**：使用 `positioning` 库的 `above=of X` 而非 `above of=X`
+2. **箭头尖端大小**：全局设置 `>=Stealth[length=4pt]`
+3. **文本溢出**：使用 `text width=2cm` 或 `align=center` 自动换行
+4. **背景层**：需要 `\usetikzlibrary{backgrounds}` 和 `\begin{scope}[on background layer]`
+5. **大括号装饰偏移**：使用 `amplitude=5pt` 并添加 `inner sep` 留间距
+6. **字体不一致**：显式设置字号，不要依赖文档默认值
+7. **编译时间过长**：使用 TikZ 外部化：`\usetikzlibrary{external}\tikzexternalize`

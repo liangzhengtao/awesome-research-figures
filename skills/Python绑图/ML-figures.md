@@ -422,3 +422,36 @@ def plot_metric_radar(models, metrics_dict, filename='radar.pdf',
 - **Nature Machine Intelligence**: Provide source code for figure generation
 - **JMLR**: Open access figures; provide raw data as CSV
 - **General**: Include error bars or confidence intervals from multiple runs/seeds
+
+---
+
+## 中文版本
+
+### 使用场景
+- 可视化分类和回归结果（混淆矩阵、ROC 曲线）
+- 绘制训练/验证曲线
+- 创建消融实验或超参数敏感性图表
+- 比较多指标下的模型性能
+- 在学术论文中展示 ML 实验结果
+
+### 工具库
+```
+pip install matplotlib numpy scikit-learn seaborn pandas
+```
+
+### 代码模板说明
+- **模板 1**：出版级混淆矩阵（支持按行/列/全局归一化，自动标注数值和颜色）
+- **模板 2**：多类别 ROC 曲线和 PR 曲线（one-vs-rest，带 AUC 标注）
+- **模板 3**：训练曲线（损失 + 精度双面板，标注最佳 epoch）
+- **模板 4**：超参数敏感性热力图（两参数组合的指标矩阵）
+- **模板 5**：消融实验柱状图（水平条形图，标注相对基线的下降百分比）
+- **模板 6**：多指标雷达图（蜘蛛图比较多个模型）
+
+### 常见陷阱
+1. **未归一化的混淆矩阵具有误导性**：始终同时展示 `normalize='true'` 和原始计数
+2. **ROC 曲线重叠**：在图例中添加 AUC 值；考虑局部放大插图
+3. **训练曲线未展示过拟合**：始终包含验证曲线
+4. **单图线条过多**：超过 6 个模型时拆分为子图
+5. **消融实验缺少基线**：始终包含"完整模型"参考柱
+6. **超参数热力图无标注**：始终在单元格中显示数值
+7. **雷达图轴过多**：限制在 6-8 个指标以保证可读性

@@ -315,3 +315,37 @@ def plot_box_strip(data, categories, xlabel, ylabel,
 - Minimum 6 pt font at final size
 - TIFF, EPS, PDF, or MS Office formats accepted
 - CMYK preferred for print journals
+
+---
+
+## 中文版本
+
+### 使用场景
+- 使用 Python 为学术论文创建出版级图表
+- 生成折线图、柱状图、散点图、箱线图或小提琴图用于期刊投稿
+- 需要在整个研究项目中保持一致、可复现的图表样式
+- 为 IEEE、Nature、Science、Elsevier 或 Springer 期刊准备图表
+
+### 工具库
+```
+pip install matplotlib numpy scipy
+```
+
+### 代码模板说明
+- **全局出版样式设置**：通过 `plt.rcParams` 统一配置字体、坐标轴、刻度、图例等参数
+- **期刊尺寸常量**：预定义单栏/双栏尺寸（Nature 89mm、IEEE 3.5in 等）
+- **色盲友好调色板**：基于 Wong 2011（Nature Methods）的 8 色方案
+- **模板 1**：带误差带的折线图（`fill_between`）
+- **模板 2**：分组柱状图（带误差棒）
+- **模板 3**：散点图 + 线性回归 + 置信区间
+- **模板 4**：箱线图 + 散点叠加（strip plot）
+
+### 常见陷阱
+1. **字体过小**：缩放后最小 6 pt，务必在最终打印尺寸下检查
+2. **矢量图中嵌入低分辨率栅格**：栅格图导出 600+ dpi，或使用矢量格式（PDF/SVG）
+3. **线宽不一致**：显式设置 `axes.linewidth` 和所有 `linewidth`
+4. **灰度打印下颜色不可区分**：用 `convert -colorspace Gray` 测试
+5. **缺少坐标轴标签或单位**：单位用括号标注，如 `Temperature (K)`
+6. **图例遮挡数据**：使用 `loc='best'` 或将图例放在坐标轴外
+7. **刻度朝外**：设置 `xtick.direction='in'` 符合出版规范
+8. **图表宽度不匹配栏宽**：使用上方的期刊专用宽度常量

@@ -336,3 +336,37 @@ def plot_categorical_with_significance(df, x, y, pairs, hue=None,
 - **PLOS ONE**: Requires 300 dpi minimum; TIFF or EPS preferred
 - **Cell**: Supports wider figures; Arial font required
 - **General**: Always provide source data alongside figures when required by journal policy
+
+---
+
+## 中文版本
+
+### 使用场景
+- 创建统计图表：分布图、相关性图、回归图
+- 用配对图（pair plot）或热力图可视化数据集关系
+- 生成出版级分类图表（小提琴图、散点条带图、蜂群图）
+- 比较不同实验条件下的分布
+- 论文或补充材料的探索性数据分析
+
+### 工具库
+```
+pip install seaborn matplotlib pandas numpy scipy
+```
+
+### 代码模板说明
+- **出版主题配置**：通过 `plt.rcParams` 和 `sns.set_palette` 统一样式
+- **模板 1**：相关性热力图（支持 Pearson/Spearman/Kendall，可隐藏上三角）
+- **模板 2**：多变量配对图（`pairplot` + KDE 对角线）
+- **模板 3**：小提琴图 + 散点条带图组合（展示个体数据点）
+- **模板 4**：多模型回归拟合比较（带 LOWESS 平滑和置信区间）
+- **模板 5**：分布比较（KDE 曲线 + 直方图叠加）
+- **模板 6**：带显著性标注的分类柱状图（Mann-Whitney U 检验星号）
+
+### 常见陷阱
+1. **Seaborn 样式覆盖 rcParams**：在 `plt.rcParams.update()` 之前调用 `sns.set_theme()`
+2. **调色板长度不匹配**：始终检查 `nunique()` 并限制调色板长度
+3. **热力图标注过于拥挤**：当 n > 10 时减小 `annot_kws` 字号
+4. **数据点少时小提琴图失真**：使用 `cut=0` 避免超出数据范围
+5. **散点条带与小提琴重叠**：设置 `alpha < 0.7` 且 `size <= 4`
+6. **显著性标注错位**：根据实际类别索引计算 x 位置
+7. **小提琴+条带图图例重复**：仅从一个图层提取图例句柄
